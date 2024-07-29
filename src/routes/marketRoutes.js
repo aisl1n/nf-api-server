@@ -1,5 +1,5 @@
 import express from 'express';
-import { createMarket, getMarkets } from '../controllers/marketController.js';
+import { createMarket, getMarkets } from '../controllers/MarketController.js';
 
 const router = express.Router();
 
