@@ -22,9 +22,17 @@ export const proxyRequest = async (req, res) => {
       }
     });
 
-    const valorTotal = $(".txtMax").text().trim();
+    const nomeLoja = $(".txtTopo").text().trim();
+    const dataCompraEl = $("ul:contains('Emissão')").text();
 
-    res.json({ produtos, valorTotal });
+    const datePattern = /\d{2}\/\d{2}\/\d{4}/;
+    const match = dataCompraEl.match(datePattern);
+    const dataCompra = match[0];
+
+    const valorTotal = $(".txtMax").text().trim();
+    const valorTotalNumber = Number(valorTotal.replace("R$ ", "").replace(",", "."));
+
+    res.json({ produtos, valorTotalNumber, nomeLoja, dataCompra });
   } catch (error) {
     res.status(500).json({ error: "Falha ao buscar os dados" });
   }

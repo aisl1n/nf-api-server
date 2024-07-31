@@ -3,7 +3,6 @@ import Product from "../models/Product.js";
 export const createProduct = async (req, res) => {
   try {
     const produtos = req.body;
-    console.log("Produtos recebidos:", produtos);
     const docs = [];
     produtos.forEach((produto) => {
       const newProductDoc = new Product({
@@ -14,7 +13,8 @@ export const createProduct = async (req, res) => {
       docs.push(newProductDoc);
     });
     await Product.insertMany(docs);
-    res.status(201).json({ message: "Produtos salvos com sucesso" });
+    const productsId = docs.map((doc) => doc._id);
+    res.status(201).json(productsId);
   } catch (error) {
     console.error("Erro ao salvar os produtos:", error);
     res.status(500).json({ error: "Falha ao salvar os produtos" });
@@ -24,6 +24,7 @@ export const createProduct = async (req, res) => {
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find();
+    // const productsIds = products.map((product) => product._id);
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 const PurchaseSchema = new mongoose.Schema({
   market: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Market',
+    type: String,
+    required: true,
   },
   date: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    required: true,
   },
   products: [{
     type: mongoose.Schema.Types.ObjectId,
