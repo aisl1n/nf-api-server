@@ -3,19 +3,7 @@ import Product from '../models/Product.js';
 
 export const createPurchase = async (req, res) => {
   try {
-    const { products } = req.body;
-
-    // Calculate the total price
-    let total = 0;
-    // for (const productId of products) {
-    //   const product = await Product.findById(productId);
-    //   if (product) {
-    //     total += product.price * product.quantity;
-    //   } else {
-    //     return res.status(404).json({ message: `Product with ID ${productId} not found` });
-    //   }
-    // }
-
+    const { products, total } = req.body;
     const purchase = new Purchase({ products, total });
     await purchase.save();
     res.status(201).json(purchase);
