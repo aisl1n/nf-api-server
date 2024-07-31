@@ -16,7 +16,9 @@ export const proxyRequest = async (req, res) => {
       const price = $(element).find(".txtTit .valor").text().trim();
 
       if (name && quantity && price) {
-        produtos.push({ name, quantity, price });
+        const quantityNumber = Number(quantity.replace(",", "."));
+        const priceNumber = Number(price.replace("R$ ", "").replace(",", "."));
+        produtos.push({ name, quantity: quantityNumber, price: priceNumber });
       }
     });
 

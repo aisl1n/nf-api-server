@@ -2,18 +2,8 @@ import Product from "../models/Product.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name, price, quantity } = req.body;
-    const product = new Product({ name, price, quantity });
-    await product.save();
-    res.status(201).json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const createProducts = async (req, res) => {
-  const { produtos } = req.body;
-  try {
+    const produtos = req.body;
+    console.log("Produtos recebidos:", produtos);
     const docs = [];
     produtos.forEach((produto) => {
       const newProductDoc = new Product({
@@ -23,7 +13,7 @@ export const createProducts = async (req, res) => {
       });
       docs.push(newProductDoc);
     });
-    await Produto.insertMany(docs);
+    await Product.insertMany(docs);
     res.status(201).json({ message: "Produtos salvos com sucesso" });
   } catch (error) {
     console.error("Erro ao salvar os produtos:", error);
@@ -35,6 +25,16 @@ export const getProducts = async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    await Product.findByIdAndDelete(productId);
+    res.status(200).json({ message: "Produto deletado com sucesso" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
