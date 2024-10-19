@@ -1,4 +1,5 @@
 import Purchase from "../models/Purchase.js";
+import dayjs from "dayjs";
 
 export const createPurchase = async (req, res) => {
   try {
@@ -37,6 +38,31 @@ export const getPurchaseById = async (req, res) => {
     res.status(200).json(purchase);
   } catch (error) {
     res.status(500).json({ message: "Compra não encontrada" });
+  }
+};
+
+export const getPurchaseByMonth = async (req, res) => {
+  try {
+    const { month } = req.params;
+    const currentYear = dayjs().year();
+    const formattedMonth = String(month).padStart(2, "0");
+    const startOfMonth = dayjs(`${currentYear}-${formattedMonth}-02`).startOf("day").toDate();
+    const endOfMonth = dayjs(`${currentYear}-${formattedMonth}-02`).add(1, "month").startOf("day").toDate();
+
+    console.log("startOfMonth", startOfMonth);
+    console.log("endOfMonth", endOfMonth);
+
+    const purchases = await Purchase.find({
+      date: {
+        $gte: startOfMonth,
+        $lt: endOfMonth,
+      },
+    }).populate("products");
+
+    res.status(200).json(purchases);
+  } catch (error) {
+    console.error("Erro ao buscar compras:", error);
+    res.status(500).json({ message: "Erro ao buscar compras" });
   }
 };
 
