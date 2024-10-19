@@ -6,8 +6,8 @@ const PurchaseSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: String,
-    required: true,
+    type: Date,
+    required: true
   },
   products: [{
     type: mongoose.Schema.Types.ObjectId,
