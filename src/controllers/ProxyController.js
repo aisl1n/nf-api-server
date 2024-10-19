@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cheerio from "cheerio";
+import * as cheerio from 'cheerio';
 
 export const proxyRequest = async (req, res) => {
   const url = req.query.url;
@@ -7,7 +7,7 @@ export const proxyRequest = async (req, res) => {
   try {
     const response = await axios.get(url);
     const html = response.data;
-    const $ = Cheerio.load(html);
+    const $ = cheerio.load(html);
     const produtos = [];
 
     $("table tbody tr").each((index, element) => {
