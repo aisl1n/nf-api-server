@@ -54,6 +54,6 @@ export const proxyRequest = async (req, res) => {
 
     res.json(responseObject);
   } catch (error) {
-    res.status(500).json({ error: 'Falha ao buscar os dados!' });
+    res.status(500).json({ error: 'Falha ao buscar os dados.' });
   }
 };
