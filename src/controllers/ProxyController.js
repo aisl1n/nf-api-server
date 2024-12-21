@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { v4 as uuidv4 } from 'uuid';
 
 export const proxyRequest = async (req, res) => {
   const url = req.query.url;
@@ -22,10 +23,17 @@ export const proxyRequest = async (req, res) => {
         .trim();
       const price = $(element).find('.txtTit .valor').text().trim();
 
-      if (name && quantity && price) {
+      const id = uuidv4();
+
+      if (id && name && quantity && price) {
         const quantityNumber = Number(quantity.replace(',', '.'));
         const priceNumber = Number(price.replace('R$ ', '').replace(',', '.'));
-        products.push({ name, quantity: quantityNumber, price: priceNumber });
+        products.push({
+          id,
+          name,
+          quantity: quantityNumber,
+          price: priceNumber,
+        });
       }
     });
 
